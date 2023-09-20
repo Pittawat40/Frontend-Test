@@ -19,7 +19,7 @@
                 placeholder="ชื่อ"
               />
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" id="txtLastName">
               <label for="lastName" class="form-label"
                 >นามสกุล<span>*</span></label
               >
@@ -167,6 +167,7 @@
     margin-top: 2rem;
   }
 
+  #txtLastName,
   #txtPhone,
   #txtGender {
     margin-top: 1rem;

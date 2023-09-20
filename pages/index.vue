@@ -24,6 +24,19 @@
   </div>
 </template>
 
+<script>
+export default {
+  data() {},
+  mounted() {
+    console.log(1)
+    // this.$store.dispatch("fetchData", this.default);
+  },
+  methods: {
+   
+  },
+};
+</script>
+
 <style scoped>
 .container {
   padding: 5rem 10rem;

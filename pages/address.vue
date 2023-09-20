@@ -9,7 +9,7 @@
           <div class="line"></div>
         </div>
 
-        <a href="#" class="btn d-block fs-6 text-white mt-3 mb-3 float-end"
+        <a href="#" class="btn d-block fs-6 text-white mt-3 mb-3 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal"
           >สร้างที่อยู่ใหม่</a
         >
 
@@ -27,7 +27,7 @@
                 1415 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800
               </td>
               <td class="text-center">
-                <a href="#" class="fs-6 text-dark">แก้ไข</a>
+                <a href="#" class="fs-6 text-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">แก้ไข</a>
                 |
                 <a href="#" class="fs-6 text-dark">ลบ</a>
               </td>
@@ -37,7 +37,7 @@
                 1415 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800
               </td>
               <td class="text-center">
-                <a href="#" class="fs-6 text-dark">แก้ไข</a>
+                <a href="#" class="fs-6 text-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">แก้ไข</a>
                 |
                 <a href="#" class="fs-6 text-dark">ลบ</a>
               </td>
@@ -89,6 +89,7 @@
       </div>
     </div>
   </div>
+  <modal />
 </template>
 
 <style scoped>

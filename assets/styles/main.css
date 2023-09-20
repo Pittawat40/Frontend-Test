@@ -5,6 +5,7 @@
   --red: #f32929;
   --secondary: #6c757d;
   --grey: #c6c7c8;
+  --white: #fff;
 }
 
 * {
@@ -29,7 +30,8 @@ h5 {
   margin: auto;
 }
 
-.container form span {
+.container form span,
+.modal form span {
   margin-left: 0.4rem;
   color: var(--red);
 }
@@ -58,7 +60,7 @@ h5 {
     width: 100% !important;
   }
 
-  .container .header .line {
+  .container .header .line{
     width: 70%;
   }
 }
