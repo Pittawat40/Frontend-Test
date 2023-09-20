@@ -13,7 +13,7 @@
         <label for="newPass" class="form-label">รหัสผ่านใหม่<span>*</span></label>
         <input type="password" class="form-control" id="newPass" placeholder="รหัสผ่านใหม่"/>
       </div>
-      <a class="btn d-block w-100 fs-6 text-white">รีเซ็ท</a>
+      <a href="/" class="btn d-block w-100 fs-6 text-white">รีเซ็ท</a>
     </form>
   </div>
 </template>
@@ -24,7 +24,7 @@
 }
 
 .container .header .line {
-  width: 50%;
+  width: 55%;
 }
 
 @media (max-width: 1200px) {
@@ -39,7 +39,7 @@
   }
 
   .container .header .line {
-    width: 60%;
+    width: 55%;
   }
 }
 
@@ -51,7 +51,7 @@
 
 @media (max-width: 414px) {
   .container .header .line {
-    width: 100%;
+    width: 40%;
   }
 }
 </style>

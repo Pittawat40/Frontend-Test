@@ -20,11 +20,11 @@
       </li>
       <li class="list-group-item p-3 border-end-0 border-start-0">
         <i class="fa fa-address-book" aria-hidden="true"></i>
-        <a class="mx-2 p-2 text-dark">ที่อยู่จัดส่ง</a>
+        <a href="/address" class="mx-2 p-2 text-dark">ที่อยู่จัดส่ง</a>
       </li>
       <li class="list-group-item p-3 border-end-0 border-start-0">
         <i class="fa fa-arrow-right" aria-hidden="true"></i>
-        <a class="mx-2 p-2 text-dark" href="/">ออกจากระบบ</a>
+        <a href="/" class="mx-2 p-2 text-dark">ออกจากระบบ</a>
       </li>
     </ul>
   </div>

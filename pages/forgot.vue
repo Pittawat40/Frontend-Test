@@ -7,9 +7,14 @@
       </div>
       <div class="mt-3 mb-3">
         <label for="email" class="form-label">อีเมล<span>*</span></label>
-        <input type="email" class="form-control" id="email" placeholder="อีเมล"/>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="อีเมล"
+        />
       </div>
-      <a class="btn d-block w-100 fs-6 text-white">รีเซ็ทรหัสผ่าน</a>
+      <a href="/reset" class="btn d-block w-100 fs-6 text-white">รีเซ็ทรหัสผ่าน</a>
       <div class="footer d-flex justify-content-center mt-3">
         <a class="text-secondary">เป็นสมาชิกแล้ว ?</a>
         <a href="/" class="text-dark text-decoration-underline mx-3"
@@ -43,4 +48,9 @@
   }
 }
 
+@media (max-width: 414px) {
+  .container .header .line {
+    width: 55%;
+  }
+}
 </style>

@@ -64,13 +64,8 @@ h5 {
 }
 
 @media (max-width: 414px) {
-  .container .header {
-    display: grid !important;
-    gap: 0.5rem;
-  }
-
   .container .header .line {
-    width: 100%;
+    width: 60%;
   }
 
   .container form {
