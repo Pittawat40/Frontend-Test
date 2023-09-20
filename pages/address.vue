@@ -9,7 +9,7 @@
           <div class="line"></div>
         </div>
 
-        <a href="#" class="btn d-block fs-6 text-white mt-3 mb-3 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        <a href="#" class="btn d-block fs-6 text-white mt-3 mb-4 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal"
           >สร้างที่อยู่ใหม่</a
         >
 
