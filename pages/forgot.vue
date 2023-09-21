@@ -1,6 +1,6 @@
 <template>
   <div class="container d-flex justify-content-center">
-    <form class="p-5">
+    <form class="p-5" @keyup.enter="resetPassword">
       <div class="header d-flex justify-content-between align-items-center">
         <h3>ลืมรหัสผ่าน</h3>
         <div class="line"></div>
@@ -12,9 +12,15 @@
           class="form-control"
           id="email"
           placeholder="อีเมล"
+          v-model="form.email"
         />
       </div>
-      <a href="/reset" class="btn d-block w-100 fs-6 text-white">รีเซ็ทรหัสผ่าน</a>
+      <a
+        href="#"
+        class="btn d-block w-100 fs-6 text-white"
+        @click="resetPassword"
+        >รีเซ็ทรหัสผ่าน</a
+      >
       <div class="footer d-flex justify-content-center mt-3">
         <a class="text-secondary">เป็นสมาชิกแล้ว ?</a>
         <a href="/" class="text-dark text-decoration-underline mx-3"
@@ -24,6 +30,23 @@
     </form>
   </div>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    form: {
+      email: "",
+    },
+    checkData: false,
+  }),
+  methods: {
+    async resetPassword() {
+      this.checkData = this.$store.checkUser(this.form);
+      if (this.checkData) this.$router.push({ path: "/reset" });
+    },
+  },
+};
+</script>
 
 <style scoped>
 .container {

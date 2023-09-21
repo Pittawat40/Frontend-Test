@@ -32,7 +32,6 @@
 
 <script>
 export default {
-  data() {},
   methods: {
     toggle() {
       const ul = document.querySelector(".list-group");
