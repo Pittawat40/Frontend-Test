@@ -136,8 +136,10 @@ export default {
   methods: {
     async register() {
       this.form.gender = this.form.gender ? "male" : "famale";
-      this.$store.registerUser(this.form);
-      this.$router.push("/");
+      if (!this.$store.checkUser(this.form)) {
+        this.$store.registerUser(this.form);
+        this.$router.push("/");
+      }
     },
   },
 };

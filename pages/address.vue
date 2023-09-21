@@ -9,7 +9,12 @@
           <div class="line"></div>
         </div>
 
-        <a href="#" class="btn d-block fs-6 text-white mt-3 mb-4 float-end" data-bs-toggle="modal" data-bs-target="#exampleModal"
+        <a
+          href="#"
+          class="btn d-block fs-6 text-white mt-3 mb-4 float-end"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          @click="update()"
           >สร้างที่อยู่ใหม่</a
         >
 
@@ -22,32 +27,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="(n, index) in list" :key="n">
               <td class="w-75" colspan="2">
-                1415 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800
+                {{ n.no }} {{ n.subDistrict }} {{ n.district }}
+                {{ n.province }} {{ n.zipcode }}
               </td>
               <td class="text-center">
-                <a href="#" class="fs-6 text-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">แก้ไข</a>
-                |
-                <a href="#" class="fs-6 text-dark">ลบ</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="w-75" colspan="2">
-                1415 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800
-              </td>
-              <td class="text-center">
-                <a href="#" class="fs-6 text-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">แก้ไข</a>
-                |
-                <a href="#" class="fs-6 text-dark">ลบ</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="w-75" colspan="2">
-                1415 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800
-              </td>
-              <td class="text-center">
-                <a href="#" class="fs-6 text-dark">แก้ไข</a>
+                <a
+                  href="#"
+                  class="fs-6 text-dark"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  @click="update(n)"
+                  >แก้ไข</a
+                >
                 |
                 <a href="#" class="fs-6 text-dark">ลบ</a>
               </td>
@@ -89,8 +82,44 @@
       </div>
     </div>
   </div>
-  <modal />
+  <modal :val="address" />
 </template>
+
+<script>
+export default {
+  data: () => ({
+    list: [
+      {
+        no: "1415",
+        subDistrict: "แขวงวงศ์สว่าง",
+        district: "เขตบางซื่อ",
+        province: "กรุงเทพฯ",
+        zipcode: "10800",
+      },
+      {
+        no: "239",
+        subDistrict: "ตำบลสุเทพ",
+        district: "อำเภอเมือง",
+        province: "จังหวัดเชียงใหม่",
+        zipcode: "50200",
+      },
+      {
+        no: "15",
+        subDistrict: "ตำบลท่าพระ",
+        district: "อำเภอเมืองขอนแก่น",
+        province: "จังหวัดขอนแก่น",
+        zipcode: "40260",
+      },
+    ],
+    address: {},
+  }),
+  methods: {
+    async update(val) {
+      this.address = val;
+    },
+  },
+};
+</script>
 
 <style scoped>
 thead tr {

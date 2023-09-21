@@ -4,7 +4,7 @@
     <div class="detail d-flex justify-content-between mt-4">
       <sidebar />
       <div class="body w-100">
-        <form>
+        <form @keyup.enter="changePass">
           <div class="header d-flex justify-content-between align-items-center">
             <h5>เปลี่ยนรหัสผ่าน</h5>
             <div class="line"></div>
@@ -19,6 +19,7 @@
                 class="form-control"
                 id="pass"
                 placeholder="รหัสผ่านปัจจุบัน"
+                v-model="form.password"
               />
             </div>
           </div>
@@ -32,6 +33,7 @@
                 class="form-control"
                 id="newPass"
                 placeholder="รหัสผ่านใหม่"
+                v-model="form.newPassword"
               />
             </div>
             <div class="col-md-6" id="txtPass">
@@ -43,17 +45,44 @@
                 class="form-control"
                 id="confirmPass"
                 placeholder="ยืนยันรหัสผ่าน"
+                v-model="form.confirmPassword"
               />
             </div>
           </div>
           <div class="footer d-flex justify-content-center align-items-center">
-            <a href="#" class="btn d-block fs-6 text-white">บันทึก</a>
+            <a href="#" class="btn d-block fs-6 text-white" @click="changePass"
+              >บันทึก</a
+            >
           </div>
         </form>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    form: {
+      password: "",
+      newPassword: "",
+      confirmPassword: "",
+    },
+    formUser: {},
+  }),
+  methods: {
+    async changePass() {
+      this.formUser = this.$store.getUser();
+      if (this.formUser.password === this.form.password) {
+        if (this.form.newPassword === this.form.confirmPassword) {
+          this.formUser.password = this.form.newPassword;
+          this.$store.editUser(this.formUser);
+        }
+      }
+    },
+  },
+};
+</script>
 
 <style scoped>
 .container {

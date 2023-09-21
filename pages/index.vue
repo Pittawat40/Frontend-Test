@@ -57,6 +57,7 @@ export default {
     async login() {
       this.checkData = this.$store.checkUser(this.form);
       if (this.checkData && this.checkData.password === this.form.password) {
+        this.$store.setUser(this.form)
         this.$router.push({ path: "/profile" });
       }
     },

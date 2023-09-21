@@ -39,6 +39,7 @@
                 class="form-control"
                 id="email"
                 placeholder="อีเมล"
+                v-model="form.email"
               />
             </div>
             <div class="col-md-6" id="txtPhone">
@@ -80,11 +81,23 @@
               <label class="form-label">เพศ<span>*</span></label>
               <div class="d-flex mt-2">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" id="male" />
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="male"
+                    :value="true"
+                    v-model="form.gender"
+                  />
                   <label class="form-check-label" for="male">ชาย</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" id="famale" />
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="famale"
+                    :value="false"
+                    v-model="form.gender"
+                  />
                   <label class="form-check-label" for="famale">หญิง</label>
                 </div>
               </div>
@@ -98,6 +111,18 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    form: {},
+  }),
+  mounted() {
+    this.form = this.$store.getUser();
+    this.form.gender = this.form.gender === "male" ? true : false;
+  },
+};
+</script>
 
 <style scoped>
 .container {

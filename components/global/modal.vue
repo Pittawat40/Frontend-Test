@@ -52,38 +52,45 @@
                     id="address"
                     rows="4"
                     placeholder="รายละเอียดที่อยู่"
+                    v-model="val.no"
                   />
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">จังหวัด<span>*</span></label>
-                  <select class="form-select">
-                    <option disabled selected hidden>กรุณาเลือกจังหวัด</option>
-                    <option>Ketchup</option>
-                    <option>Relish</option>
+                  {{ val.province }}
+                  <select class="form-select" v-model="val.province">
+                    <option value="" disabled selected hidden>
+                      กรุณาเลือกจังหวัด
+                    </option>
+                    <option value="กรุงเทพฯ">กรุงเทพฯ</option>
+                    <option value="จังหวัดเชียงใหม่">จังหวัดเชียงใหม่</option>
+                    <option value="จังหวัดขอนแก่น">จังหวัดขอนแก่น</option>
                   </select>
                 </div>
                 <div class="col-md-6" id="txtDistrct">
                   <label class="form-label">เขต/อำเภอ<span>*</span></label>
-                  <select class="form-select">
-                    <option disabled selected hidden>
+                  <select class="form-select" v-model="val.district">
+                    <option value="" disabled selected hidden>
                       กรุณาเลือกเขต/อำเภอ
                     </option>
-                    <option>Ketchup</option>
-                    <option>Relish</option>
+                    <option value="เขตบางซื่อ">เขตบางซื่อ</option>
+                    <option value="อำเภอเมือง">อำเภอเมือง</option>
+                    <option value="อำเภอเมืองขอนแก่น">อำเภอเมืองขอนแก่น</option>
                   </select>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">แขวง/ตำบล<span>*</span></label>
-                  <select class="form-select">
-                    <option disabled selected hidden>
+                  <select class="form-select" v-model="val.subDistrict">
+                    <option value="" disabled selected hidden>
                       กรุณาเลือกแขวง/ตำบล
                     </option>
-                    <option>Ketchup</option>
-                    <option>Relish</option>
+                    <option value="แขวงวงศ์สว่าง">แขวงวงศ์สว่าง</option>
+                    <option value="ตำบลสุเทพ">ตำบลสุเทพ</option>
+                    <option value="ตำบลท่าพระ">ตำบลท่าพระ</option>
                   </select>
                 </div>
                 <div class="col-md-6" id="txtPostCode">
@@ -95,6 +102,7 @@
                     class="form-control"
                     id="postCode"
                     placeholder="รหัสไปรษณีย์"
+                    v-model="val.zipcode"
                   />
                 </div>
               </div>
@@ -117,6 +125,22 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    val: {
+      type: Object,
+      default: {
+        province: "",
+        district: "",
+        subDistrict: "",
+      },
+      required: false,
+    },
+  },
+};
+</script>
 
 <style scoped>
 .btn {
