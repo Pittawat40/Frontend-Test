@@ -41,11 +41,8 @@ export default {
   }),
   methods: {
     async resetPassword() {
-      console.log(1)
       this.checkData = this.$store.checkUser(this.form);
       if (this.checkData) {
-        console.log(2)
-        console.log(this.form)
         this.$store.setUser(this.form);
         setTimeout(() => this.$router.push({ path: "/reset" }), 500);
       }

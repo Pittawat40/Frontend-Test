@@ -10,20 +10,36 @@
         <input
           type="email"
           class="form-control"
+          :class="{ 'border-danger': v$.form.email.$errors.length }"
           id="email"
           placeholder="อีเมล"
-          v-model="form.email"
+          v-model="v$.form.email.$model"
         />
+        <div
+          class="mt-1 input-errors text-danger"
+          v-for="(error, index) of v$.form.email.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
       <div class="mb-3">
         <label for="pass" class="form-label">รหัสผ่าน<span>*</span></label>
         <input
           type="password"
           class="form-control"
+          :class="{ 'border-danger': v$.form.password.$errors.length }"
           id="pass"
           placeholder="รหัสผ่าน"
-          v-model="form.password"
+          v-model="v$.form.password.$model"
         />
+        <div
+          class="mt-1 input-errors text-danger"
+          v-for="(error, index) of v$.form.password.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
         <div class="form-text">
           * รหัสผ่านต้องประกอบด้วยตัวอักษร a-z และ 1-9 ควรมีความยาวไม่ต่ำกว่า 6
           ตัวอักษร
@@ -36,10 +52,18 @@
         <input
           type="password"
           class="form-control"
+          :class="{ 'border-danger': v$.form.confirmPassword.$errors.length }"
           id="confirmPass"
           placeholder="ยืนยันรหัสผ่าน"
-          v-model="form.confirmPassword"
+          v-model="v$.form.confirmPassword.$model"
         />
+        <div
+          class="mt-1 input-errors text-danger"
+          v-for="(error, index) of v$.form.confirmPassword.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
       <div class="mt-3 mb-3">
         <label class="form-label">วันเกิด<span>*</span></label>
@@ -66,22 +90,31 @@
         <div class="form-check form-check-inline mx-4">
           <input
             class="form-check-input"
+            :class="{ 'border-danger': v$.form.gender.$errors.length }"
             type="radio"
             id="male"
             value="male"
-            v-model="form.gender"
+            v-model="v$.form.gender.$model"
           />
           <label class="form-check-label" for="male">ชาย</label>
         </div>
         <div class="form-check form-check-inline">
           <input
             class="form-check-input"
+            :class="{ 'border-danger': v$.form.gender.$errors.length }"
             type="radio"
             id="famale"
             value="famale"
-            v-model="form.gender"
+            v-model="v$.form.gender.$model"
           />
           <label class="form-check-label" for="famale">หญิง</label>
+        </div>
+        <div
+          class="input-errors text-danger"
+          v-for="(error, index) of v$.form.gender.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
         </div>
       </div>
       <div class="form-check">
@@ -99,11 +132,8 @@
         </label>
       </div>
       <a
-        :class="
-          !form.access
-            ? 'btn d-block w-100 fs-6 text-white mt-4 disabled'
-            : 'btn d-block w-100 fs-6 text-white mt-4'
-        "
+        class="btn d-block w-100 fs-6 text-white mt-4"
+        :class="!form.access ? 'disabled' : ''"
         @click="register"
         >ลงทะเบียน</a
       >
@@ -118,7 +148,19 @@
 </template>
 
 <script>
+import useVuelidate from "@vuelidate/core";
+import {
+  required,
+  email,
+  minLength,
+  helpers,
+  sameAs,
+} from "@vuelidate/validators";
+
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data: () => ({
     form: {
       email: "",
@@ -133,11 +175,44 @@ export default {
       access: false,
     },
   }),
+  validations() {
+    return {
+      form: {
+        email: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          email: helpers.withMessage("กรุณากรอกอีเมล !", email),
+        },
+        password: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          min: helpers.withMessage(
+            "รหัสผ่านต้องมากกว่า 6 ตัวอักษร !",
+            minLength(6)
+          ),
+        },
+        confirmPassword: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          min: helpers.withMessage(
+            "รหัสผ่านต้องมากกว่า 6 ตัวอักษร !",
+            minLength(6)
+          ),
+          sameAs: helpers.withMessage(
+            "กรุณากรอกรหัสผ่านให้เหมือนกัน !",
+            sameAs(this.form.password)
+          ),
+        },
+        gender: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+      },
+    };
+  },
   methods: {
     async register() {
+      this.v$.form.$touch();
+      if (this.v$.form.$error) return;
+
       if (!this.$store.checkUser(this.form)) {
         if (this.form.password === this.form.confirmPassword) {
-          delete this.form.confirmPassword;
           this.$store.registerUser(this.form);
           setTimeout(() => this.$router.push({ path: "/" }), 500);
         }
