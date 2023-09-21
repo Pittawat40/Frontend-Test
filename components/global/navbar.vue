@@ -1,13 +1,23 @@
 <template>
   <div class="user">
     <i class="fa fa-user" aria-hidden="true"></i>
-    <a class="mx-1 p-2 text-dark">arm</a>
+    <a class="mx-1 p-2 text-dark">{{ data.surName ? data.surName : data.email}}</a>
   </div>
   <div class="header d-flex justify-content-between align-items-center w-100">
     <h3>บัญชีผู้ใช้</h3>
     <div class="line"></div>
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    data() {
+      return this.$store.getUser();
+    },
+  },
+};
+</script>
 
 <style scoped>
 .user {

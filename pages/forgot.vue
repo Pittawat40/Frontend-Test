@@ -1,6 +1,6 @@
 <template>
   <div class="container d-flex justify-content-center">
-    <form class="p-5" @keyup.enter="resetPassword">
+    <form class="p-5" @submit.prevent="resetPassword">
       <div class="header d-flex justify-content-between align-items-center">
         <h3>ลืมรหัสผ่าน</h3>
         <div class="line"></div>
@@ -41,8 +41,11 @@ export default {
   }),
   methods: {
     async resetPassword() {
+      console.log(1)
       this.checkData = this.$store.checkUser(this.form);
       if (this.checkData) {
+        console.log(2)
+        console.log(this.form)
         this.$store.setUser(this.form);
         setTimeout(() => this.$router.push({ path: "/reset" }), 500);
       }
