@@ -15,10 +15,18 @@
               <input
                 type="text"
                 class="form-control"
+                :class="{ 'border-danger': v$.form.surName.$errors.length }"
                 id="surName"
                 placeholder="ชื่อ"
                 v-model="form.surName"
               />
+              <div
+                class="mt-1 input-errors text-danger"
+                v-for="(error, index) of v$.form.surName.$errors"
+                :key="index"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
+              </div>
             </div>
             <div class="col-md-6" id="txtLastName">
               <label for="lastName" class="form-label"
@@ -27,10 +35,18 @@
               <input
                 type="text"
                 class="form-control"
+                :class="{ 'border-danger': v$.form.lastName.$errors.length }"
                 id="lastName"
                 placeholder="นามสกุล"
                 v-model="form.lastName"
               />
+              <div
+                class="mt-1 input-errors text-danger"
+                v-for="(error, index) of v$.form.lastName.$errors"
+                :key="index"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
+              </div>
             </div>
           </div>
           <div class="row mt-3">
@@ -39,10 +55,18 @@
               <input
                 type="email"
                 class="form-control"
+                :class="{ 'border-danger': v$.form.email.$errors.length }"
                 id="email"
                 placeholder="อีเมล"
                 v-model="form.email"
               />
+              <div
+                class="mt-1 input-errors text-danger"
+                v-for="(error, index) of v$.form.email.$errors"
+                :key="index"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
+              </div>
             </div>
             <div class="col-md-6" id="txtPhone">
               <label for="phone" class="form-label"
@@ -51,10 +75,18 @@
               <input
                 type="text"
                 class="form-control"
+                :class="{ 'border-danger': v$.form.phone.$errors.length }"
                 id="phone"
                 placeholder="เบอร์โทรศัพท์"
                 v-model="form.phone"
               />
+              <div
+                class="mt-1 input-errors text-danger"
+                v-for="(error, index) of v$.form.phone.$errors"
+                :key="index"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
+              </div>
             </div>
           </div>
           <div class="row mt-3">
@@ -86,6 +118,7 @@
                 <div class="form-check form-check-inline">
                   <input
                     class="form-check-input"
+                    :class="{ 'border-danger': v$.form.gender.$errors.length }"
                     type="radio"
                     id="male"
                     value="male"
@@ -96,12 +129,20 @@
                 <div class="form-check form-check-inline">
                   <input
                     class="form-check-input"
+                    :class="{ 'border-danger': v$.form.gender.$errors.length }"
                     type="radio"
                     id="famale"
                     value="famale"
                     v-model="form.gender"
                   />
                   <label class="form-check-label" for="famale">หญิง</label>
+                </div>
+                <div
+                  class="input-errors text-danger"
+                  v-for="(error, index) of v$.form.gender.$errors"
+                  :key="index"
+                >
+                  <div class="error-msg">{{ error.$message }}</div>
                 </div>
               </div>
             </div>
@@ -121,15 +162,46 @@
 </template>
 
 <script>
+import useVuelidate from "@vuelidate/core";
+import { required, email, minLength, helpers } from "@vuelidate/validators";
+
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data: () => ({
     form: {},
   }),
+  validations() {
+    return {
+      form: {
+        surName: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+        lastName: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+        email: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          email: helpers.withMessage("กรุณากรอกอีเมล !", email),
+        },
+        phone: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+        gender: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+      },
+    };
+  },
   mounted() {
     this.form = this.$store.getUser();
   },
   methods: {
     async updateProfile() {
+      this.v$.form.$touch();
+      if (this.v$.form.$error) return;
+
       this.$store.editUser(this.form);
     },
   },

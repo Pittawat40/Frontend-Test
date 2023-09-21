@@ -17,10 +17,18 @@
               <input
                 type="password"
                 class="form-control"
+                :class="{ 'border-danger': v$.form.password.$errors.length }"
                 id="pass"
                 placeholder="รหัสผ่านปัจจุบัน"
                 v-model="form.password"
               />
+              <div
+                class="mt-1 input-errors text-danger"
+                v-for="(error, index) of v$.form.password.$errors"
+                :key="index"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
+              </div>
             </div>
           </div>
           <div class="row mt-3">
@@ -31,10 +39,18 @@
               <input
                 type="password"
                 class="form-control"
+                :class="{ 'border-danger': v$.form.newPassword.$errors.length }"
                 id="newPass"
                 placeholder="รหัสผ่านใหม่"
                 v-model="form.newPassword"
               />
+              <div
+                class="mt-1 input-errors text-danger"
+                v-for="(error, index) of v$.form.newPassword.$errors"
+                :key="index"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
+              </div>
             </div>
             <div class="col-md-6" id="txtPass">
               <label for="confirmPass" class="form-label"
@@ -43,10 +59,18 @@
               <input
                 type="password"
                 class="form-control"
+                :class="{ 'border-danger': v$.form.confirmPassword.$errors.length }"
                 id="confirmPass"
                 placeholder="ยืนยันรหัสผ่าน"
                 v-model="form.confirmPassword"
               />
+              <div
+                class="mt-1 input-errors text-danger"
+                v-for="(error, index) of v$.form.confirmPassword.$errors"
+                :key="index"
+              >
+                <div class="error-msg">{{ error.$message }}</div>
+              </div>
             </div>
           </div>
           <div class="footer d-flex justify-content-center align-items-center">
@@ -61,7 +85,13 @@
 </template>
 
 <script>
+import useVuelidate from "@vuelidate/core";
+import { required, sameAs, minLength, helpers } from "@vuelidate/validators";
+
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data: () => ({
     form: {
       password: "",
@@ -70,14 +100,49 @@ export default {
     },
     formUser: {},
   }),
+  validations() {
+    return {
+      form: {
+        password: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          min: helpers.withMessage(
+            "รหัสผ่านต้องมากกว่า 6 ตัวอักษร !",
+            minLength(6)
+          ),
+        },
+        newPassword: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          min: helpers.withMessage(
+            "รหัสผ่านต้องมากกว่า 6 ตัวอักษร !",
+            minLength(6)
+          ),
+        },
+        confirmPassword: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          min: helpers.withMessage(
+            "รหัสผ่านต้องมากกว่า 6 ตัวอักษร !",
+            minLength(6)
+          ),
+          sameAs: helpers.withMessage(
+            "กรุณากรอกรหัสผ่านให้เหมือนกัน !",
+            sameAs(this.form.newPassword)
+          ),
+        },
+      },
+    };
+  },
   methods: {
     async changePass() {
+      this.v$.form.$touch();
+      if (this.v$.form.$error) return;
+
       this.formUser = this.$store.getUser();
       if (this.formUser.password === this.form.password) {
         if (this.form.newPassword === this.form.confirmPassword) {
           this.formUser.password = this.form.newPassword;
           this.$store.editUser(this.formUser);
-          this.form = {}
+          this.form = {};
+          this.v$.$reset();
         }
       }
     },
