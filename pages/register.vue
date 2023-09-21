@@ -68,7 +68,7 @@
             class="form-check-input"
             type="radio"
             id="male"
-            :value="true"
+            value="male"
             v-model="form.gender"
           />
           <label class="form-check-label" for="male">ชาย</label>
@@ -78,7 +78,7 @@
             class="form-check-input"
             type="radio"
             id="famale"
-            :value="false"
+            value="famale"
             v-model="form.gender"
           />
           <label class="form-check-label" for="famale">หญิง</label>
@@ -129,16 +129,18 @@ export default {
         month: "",
         year: "",
       },
-      gender: 0,
+      gender: "",
       access: false,
     },
   }),
   methods: {
     async register() {
-      this.form.gender = this.form.gender ? "male" : "famale";
       if (!this.$store.checkUser(this.form)) {
-        this.$store.registerUser(this.form);
-        this.$router.push("/");
+        if (this.form.password === this.form.confirmPassword) {
+          delete this.form.confirmPassword;
+          this.$store.registerUser(this.form);
+          setTimeout(() => this.$router.push({ path: "/" }), 500);
+        }
       }
     },
   },

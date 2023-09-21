@@ -17,6 +17,7 @@
                 class="form-control"
                 id="surName"
                 placeholder="ชื่อ"
+                v-model="form.surName"
               />
             </div>
             <div class="col-md-6" id="txtLastName">
@@ -28,6 +29,7 @@
                 class="form-control"
                 id="lastName"
                 placeholder="นามสกุล"
+                v-model="form.lastName"
               />
             </div>
           </div>
@@ -51,6 +53,7 @@
                 class="form-control"
                 id="phone"
                 placeholder="เบอร์โทรศัพท์"
+                v-model="form.phone"
               />
             </div>
           </div>
@@ -85,7 +88,7 @@
                     class="form-check-input"
                     type="radio"
                     id="male"
-                    :value="true"
+                    value="male"
                     v-model="form.gender"
                   />
                   <label class="form-check-label" for="male">ชาย</label>
@@ -95,7 +98,7 @@
                     class="form-check-input"
                     type="radio"
                     id="famale"
-                    :value="false"
+                    value="famale"
                     v-model="form.gender"
                   />
                   <label class="form-check-label" for="famale">หญิง</label>
@@ -104,7 +107,12 @@
             </div>
           </div>
           <div class="footer d-flex justify-content-center align-items-center">
-            <a href="#" class="btn d-block fs-6 text-white">บันทึก</a>
+            <a
+              href="#"
+              class="btn d-block fs-6 text-white"
+              @click="updateProfile"
+              >บันทึก</a
+            >
           </div>
         </form>
       </div>
@@ -119,7 +127,11 @@ export default {
   }),
   mounted() {
     this.form = this.$store.getUser();
-    this.form.gender = this.form.gender === "male" ? true : false;
+  },
+  methods: {
+    async updateProfile() {
+      this.$store.editUser(this.form);
+    },
   },
 };
 </script>

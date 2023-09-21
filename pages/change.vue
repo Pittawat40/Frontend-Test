@@ -77,6 +77,7 @@ export default {
         if (this.form.newPassword === this.form.confirmPassword) {
           this.formUser.password = this.form.newPassword;
           this.$store.editUser(this.formUser);
+          this.form = {}
         }
       }
     },

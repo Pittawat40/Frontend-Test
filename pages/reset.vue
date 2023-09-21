@@ -1,22 +1,63 @@
 <template>
   <div class="container d-flex justify-content-center">
-    <form class="p-5">
+    <form class="p-5" @keyup.enter="changePass">
       <div class="header d-flex justify-content-between align-items-center">
         <h3>ตั้งรหัสผ่านใหม่</h3>
         <div class="line"></div>
       </div>
       <div class="mt-3 mb-3">
         <label for="password" class="form-label">รหัสผ่าน<span>*</span></label>
-        <input type="password" class="form-control" id="password" placeholder="รหัสผ่าน"/>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          placeholder="รหัสผ่าน"
+          v-model="form.password"
+        />
       </div>
       <div class="mb-3">
-        <label for="newPass" class="form-label">รหัสผ่านใหม่<span>*</span></label>
-        <input type="password" class="form-control" id="newPass" placeholder="รหัสผ่านใหม่"/>
+        <label for="newPass" class="form-label"
+          >รหัสผ่านใหม่<span>*</span></label
+        >
+        <input
+          type="password"
+          class="form-control"
+          id="newPass"
+          placeholder="รหัสผ่านใหม่"
+          v-model="form.newPassword"
+        />
       </div>
-      <a href="/" class="btn d-block w-100 fs-6 text-white">รีเซ็ท</a>
+      <a
+        href="#"
+        class="btn d-block w-100 fs-6 text-white"
+        @click="changePass()"
+        >รีเซ็ท</a
+      >
     </form>
   </div>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    form: {
+      password: "",
+      newPassword: "",
+    },
+    formUser: {},
+  }),
+  methods: {
+    async changePass() {
+      this.formUser = this.$store.getUser();
+      if (this.formUser.password === this.form.password) {
+        this.formUser.password = this.form.newPassword;
+        this.$store.editUser(this.formUser);
+        setTimeout(() => this.$router.push({ path: "/" }), 500);
+      }
+    },
+  },
+};
+</script>
 
 <style scoped>
 .container {

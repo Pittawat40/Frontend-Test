@@ -42,7 +42,10 @@ export default {
   methods: {
     async resetPassword() {
       this.checkData = this.$store.checkUser(this.form);
-      if (this.checkData) this.$router.push({ path: "/reset" });
+      if (this.checkData) {
+        this.$store.setUser(this.form);
+        setTimeout(() => this.$router.push({ path: "/reset" }), 500);
+      }
     },
   },
 };
