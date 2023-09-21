@@ -13,7 +13,7 @@
           :class="{ 'border-danger': v$.form.email.$errors.length }"
           id="email"
           placeholder="อีเมล"
-          v-model="v$.form.email.$model"
+          v-model="form.email"
         />
         <div
           class="mt-1 input-errors text-danger"
@@ -31,7 +31,7 @@
           :class="{ 'border-danger': v$.form.password.$errors.length }"
           id="pass"
           placeholder="รหัสผ่าน"
-          v-model="v$.form.password.$model"
+          v-model="form.password"
         />
         <div
           class="mt-1 input-errors text-danger"
@@ -55,7 +55,7 @@
           :class="{ 'border-danger': v$.form.confirmPassword.$errors.length }"
           id="confirmPass"
           placeholder="ยืนยันรหัสผ่าน"
-          v-model="v$.form.confirmPassword.$model"
+          v-model="form.confirmPassword"
         />
         <div
           class="mt-1 input-errors text-danger"
@@ -94,7 +94,7 @@
             type="radio"
             id="male"
             value="male"
-            v-model="v$.form.gender.$model"
+            v-model="form.gender"
           />
           <label class="form-check-label" for="male">ชาย</label>
         </div>
@@ -105,7 +105,7 @@
             type="radio"
             id="famale"
             value="famale"
-            v-model="v$.form.gender.$model"
+            v-model="form.gender"
           />
           <label class="form-check-label" for="famale">หญิง</label>
         </div>

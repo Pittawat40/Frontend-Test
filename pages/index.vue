@@ -13,7 +13,7 @@
           :class="{ 'border-danger': v$.form.email.$errors.length }"
           id="email"
           placeholder="อีเมล"
-          v-model="v$.form.email.$model"
+          v-model="form.email"
         />
         <div
           class="mt-1 input-errors text-danger"
@@ -31,7 +31,7 @@
           :class="{ 'border-danger': v$.form.password.$errors.length }"
           id="pass"
           placeholder="รหัสผ่าน"
-          v-model="v$.form.password.$model"
+          v-model="form.password"
         />
         <div
           class="mt-1 input-errors text-danger"

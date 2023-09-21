@@ -10,10 +10,18 @@
         <input
           type="email"
           class="form-control"
+          :class="{ 'border-danger': v$.form.email.$errors.length }"
           id="email"
           placeholder="อีเมล"
           v-model="form.email"
         />
+        <div
+          class="mt-1 input-errors text-danger"
+          v-for="(error, index) of v$.form.email.$errors"
+          :key="index"
+        >
+          <div class="error-msg">{{ error.$message }}</div>
+        </div>
       </div>
       <a
         href="#"
@@ -32,15 +40,34 @@
 </template>
 
 <script>
+import useVuelidate from "@vuelidate/core";
+import { required, email, helpers } from "@vuelidate/validators";
+
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data: () => ({
     form: {
       email: "",
     },
     checkData: false,
   }),
+  validations() {
+    return {
+      form: {
+        email: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          email: helpers.withMessage("กรุณากรอกอีเมล !", email),
+        },
+      },
+    };
+  },
   methods: {
     async resetPassword() {
+      this.v$.form.$touch();
+      if (this.v$.form.$error) return;
+
       this.checkData = this.$store.checkUser(this.form);
       if (this.checkData) {
         this.$store.setUser(this.form);
