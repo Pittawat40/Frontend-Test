@@ -82,7 +82,7 @@
       </div>
     </div>
   </div>
-  <modal :val="address" :indexArr="index" />
+  <modal ref="modal" :val="address" :indexArr="index" />
 </template>
 
 <script>
@@ -97,6 +97,7 @@ export default {
   },
   methods: {
     async update(val, indexArr) {
+      this.$refs.modal.reset()
       this.address = val;
       this.index = indexArr;
     },

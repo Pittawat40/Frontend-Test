@@ -236,11 +236,6 @@ export default {
   },
   watch: {
     val: async function (e) {
-      // console.log(e, "eee");
-      //   console.log(document.querySelector("#reset").click());
-
-      //   console.log( setTimeout(() => document.querySelector("#reset").click(), 500) ,"sssss");
-      //   setTimeout(() => document.querySelector("#reset").click(), 500)
       if (Object.keys(e).length === 0) {
         this.detail = {
           province: "",
@@ -293,6 +288,9 @@ export default {
       this.$store.updateAddress(this.detail, index);
       document.getElementById("close").click();
     },
+    reset(){
+      setTimeout(() => document.querySelector("#reset").click(), 100);
+    }
   },
 };
 </script>
