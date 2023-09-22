@@ -37,6 +37,7 @@
       </div>
     </form>
   </div>
+  <alert ref="alert" />
 </template>
 
 <script>
@@ -72,6 +73,11 @@ export default {
       if (this.checkData) {
         this.$store.setUser(this.form);
         setTimeout(() => this.$router.push({ path: "/reset" }), 500);
+      } else {
+        const element = this.$refs.alert;
+        element.setData("ไม่พบอีเมลในระบบ", "error", "bg-danger");
+        setTimeout(() => element.$el.classList.add("active"), 100);
+        setTimeout(() => element.$el.classList.remove("active"), 2500);
       }
     },
   },

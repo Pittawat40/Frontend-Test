@@ -51,6 +51,7 @@
       >
     </form>
   </div>
+  <alert ref="alert" />
 </template>
 
 <script>
@@ -94,10 +95,20 @@ export default {
       if (this.v$.form.$error) return;
 
       this.formUser = this.$store.getUser();
+      const element = this.$refs.alert;
+
       if (this.formUser.password === this.form.password) {
         this.formUser.password = this.form.newPassword;
         this.$store.editUser(this.formUser);
-        setTimeout(() => this.$router.push({ path: "/" }), 500);
+
+        element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
+        setTimeout(() => element.$el.classList.add("active"), 100);
+        setTimeout(() => element.$el.classList.remove("active"), 1500);
+        setTimeout(() => this.$router.push({ path: "/" }), 2000);
+      } else {
+        element.setData("รหัสผ่านไม่ถูกต้อง", "error", "bg-danger");
+        setTimeout(() => element.$el.classList.add("active"), 100);
+        setTimeout(() => element.$el.classList.remove("active"), 2500);
       }
     },
   },

@@ -159,6 +159,7 @@
       </div>
     </div>
   </div>
+  <alert ref="alert" />
 </template>
 
 <script>
@@ -203,6 +204,10 @@ export default {
       if (this.v$.form.$error) return;
 
       this.$store.editUser(this.form);
+      const element = this.$refs.alert;
+      element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
+      setTimeout(() => element.$el.classList.add("active"), 100);
+      setTimeout(() => element.$el.classList.remove("active"), 2500);
     },
   },
 };

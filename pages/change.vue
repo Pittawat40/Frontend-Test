@@ -59,7 +59,9 @@
               <input
                 type="password"
                 class="form-control"
-                :class="{ 'border-danger': v$.form.confirmPassword.$errors.length }"
+                :class="{
+                  'border-danger': v$.form.confirmPassword.$errors.length,
+                }"
                 id="confirmPass"
                 placeholder="ยืนยันรหัสผ่าน"
                 v-model="form.confirmPassword"
@@ -82,6 +84,7 @@
       </div>
     </div>
   </div>
+  <alert ref="alert" />
 </template>
 
 <script>
@@ -137,13 +140,23 @@ export default {
       if (this.v$.form.$error) return;
 
       this.formUser = this.$store.getUser();
+      const element = this.$refs.alert;
+
       if (this.formUser.password === this.form.password) {
         if (this.form.newPassword === this.form.confirmPassword) {
           this.formUser.password = this.form.newPassword;
           this.$store.editUser(this.formUser);
-          this.form = {};
           this.v$.$reset();
+          this.form = {};
+
+          element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
+          setTimeout(() => element.$el.classList.add("active"), 100);
+          setTimeout(() => element.$el.classList.remove("active"), 2500);
         }
+      } else {
+        element.setData("รหัสผ่านไม่ถูกต้อง", "error", "bg-danger");
+        setTimeout(() => element.$el.classList.add("active"), 100);
+        setTimeout(() => element.$el.classList.remove("active"), 2500);
       }
     },
   },

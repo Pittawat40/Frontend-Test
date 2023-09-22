@@ -212,11 +212,12 @@
       </div>
     </div>
   </div>
+  <alert ref="alert" />
 </template>
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import { required, helpers, numeric, maxLength } from "@vuelidate/validators";
+import { required, helpers, numeric, minLength } from "@vuelidate/validators";
 
 export default {
   setup() {
@@ -272,9 +273,9 @@ export default {
         zipcode: {
           required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
           numeric: helpers.withMessage("กรุณากรอกข้อมูลเป็นตัวเลข !", numeric),
-          max: helpers.withMessage(
-            "รหัสผ่านต้องมากกว่า 5 ตัวอักษร !",
-            maxLength(5)
+          min: helpers.withMessage(
+            "รหัสไปรษณีย์ต้องมี 5 ตัวอักษร !",
+            minLength(5)
           ),
         },
       },
@@ -286,11 +287,17 @@ export default {
       if (this.v$.detail.$error) return;
 
       this.$store.updateAddress(this.detail, index);
+
+      const element = this.$refs.alert;
+      element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
+      setTimeout(() => element.$el.classList.add("active"), 100);
+      setTimeout(() => element.$el.classList.remove("active"), 2500);
+
       document.getElementById("close").click();
     },
-    reset(){
+    reset() {
       setTimeout(() => document.querySelector("#reset").click(), 100);
-    }
+    },
   },
 };
 </script>

@@ -58,6 +58,7 @@
       </div>
     </form>
   </div>
+  <alert ref="alert" />
 </template>
 
 <script>
@@ -74,6 +75,9 @@ export default {
       password: "",
     },
     checkData: false,
+    text: "",
+    type: "",
+    class: "",
   }),
   validations() {
     return {
@@ -101,6 +105,11 @@ export default {
       if (this.checkData && this.checkData.password === this.form.password) {
         this.$store.setUser(this.form);
         setTimeout(() => this.$router.push({ path: "/profile" }), 500);
+      } else {
+        const element = this.$refs.alert;
+        element.setData("ไม่พบอีเมลในระบบ", "error", "bg-danger");
+        setTimeout(() => element.$el.classList.add("active"), 100);
+        setTimeout(() => element.$el.classList.remove("active"), 2500);
       }
     },
   },
