@@ -283,10 +283,14 @@ export default {
     async create() {
       this.v$.detail.$touch();
       if (this.v$.detail.$error) return;
+      
       this.$store.updateAddress(this.detail);
       document.getElementById("close").click();
     },
     async update() {
+      this.v$.detail.$touch();
+      if (this.v$.detail.$error) return;
+
       this.$store.updateAddress(this.detail, this.indexArr);
       document.getElementById("close").click();
     },
