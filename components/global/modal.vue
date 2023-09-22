@@ -187,6 +187,7 @@
                   </div>
                 </div>
               </div>
+              <a class="d-none" id="reset" @click="v$.detail.$reset"></a>
               <div
                 class="footer d-flex justify-content-between align-items-center"
               >
@@ -201,7 +202,7 @@
                 <a
                   href="#"
                   class="btn d-block fs-6 text-white"
-                  @click="indexArr !== null ? update() : create()"
+                  @click="update(indexArr)"
                   >บันทึก</a
                 >
               </div>
@@ -235,6 +236,11 @@ export default {
   },
   watch: {
     val: async function (e) {
+      // console.log(e, "eee");
+      //   console.log(document.querySelector("#reset").click());
+
+      //   console.log( setTimeout(() => document.querySelector("#reset").click(), 500) ,"sssss");
+      //   setTimeout(() => document.querySelector("#reset").click(), 500)
       if (Object.keys(e).length === 0) {
         this.detail = {
           province: "",
@@ -280,18 +286,11 @@ export default {
     };
   },
   methods: {
-    async create() {
-      this.v$.detail.$touch();
-      if (this.v$.detail.$error) return;
-      
-      this.$store.updateAddress(this.detail);
-      document.getElementById("close").click();
-    },
-    async update() {
+    async update(index) {
       this.v$.detail.$touch();
       if (this.v$.detail.$error) return;
 
-      this.$store.updateAddress(this.detail, this.indexArr);
+      this.$store.updateAddress(this.detail, index);
       document.getElementById("close").click();
     },
   },
@@ -325,6 +324,14 @@ export default {
   }
 }
 
+@media (max-width: 768px) {
+  #txtLastName,
+  #txtDistrct,
+  #txtPostCode {
+    margin-top: 1rem;
+  }
+}
+
 @media (max-width: 414px) {
   .modal .header .line {
     width: 65%;
@@ -332,12 +339,6 @@ export default {
 
   .modal-body {
     padding: 1.2rem !important;
-  }
-
-  #txtLastName,
-  #txtDistrct,
-  #txtPostCode {
-    margin-top: 1rem;
   }
 }
 </style>

@@ -77,7 +77,7 @@ export const useMainStore = defineStore("main", {
       return this.$state.addressStorage
     },
     updateAddress(commit, index) {
-      if (index !== undefined) this.$state.addressStorage[index] = commit
+      if (index !== null) this.$state.addressStorage[index] = commit
       else this.$state.addressStorage.push(commit)
 
       localStorage.setItem("address", JSON.stringify(this.$state.addressStorage));
