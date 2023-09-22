@@ -69,14 +69,17 @@ export const useMainStore = defineStore("main", {
     },
     getAddress() {
       this.$state.addressStorage = JSON.parse(localStorage.getItem("address"));
-      if (!this.$state.addressStorage) localStorage.setItem("address", JSON.stringify(this.$state.list));
+      if (!this.$state.addressStorage) {
+        localStorage.setItem("address", JSON.stringify(this.$state.list));
+        this.$state.addressStorage = JSON.parse(localStorage.getItem("address"));
+      } 
 
       return this.$state.addressStorage
     },
     updateAddress(commit, index) {
       if (index !== undefined) this.$state.addressStorage[index] = commit
       else this.$state.addressStorage.push(commit)
-      
+
       localStorage.setItem("address", JSON.stringify(this.$state.addressStorage));
     },
   },
