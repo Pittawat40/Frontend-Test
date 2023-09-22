@@ -25,9 +25,20 @@
                   <input
                     type="text"
                     class="form-control"
+                    :class="{
+                      'border-danger': v$.detail.surName.$errors.length,
+                    }"
                     id="surName"
                     placeholder="ชื่อ"
+                    v-model="detail.surName"
                   />
+                  <div
+                    class="mt-1 input-errors text-danger"
+                    v-for="(error, index) of v$.detail.surName.$errors"
+                    :key="index"
+                  >
+                    <div class="error-msg">{{ error.$message }}</div>
+                  </div>
                 </div>
                 <div class="col-md-6" id="txtLastName">
                   <label for="lastName" class="form-label"
@@ -36,9 +47,20 @@
                   <input
                     type="text"
                     class="form-control"
+                    :class="{
+                      'border-danger': v$.detail.lastName.$errors.length,
+                    }"
                     id="lastName"
                     placeholder="นามสกุล"
+                    v-model="detail.lastName"
                   />
+                  <div
+                    class="mt-1 input-errors text-danger"
+                    v-for="(error, index) of v$.detail.lastName.$errors"
+                    :key="index"
+                  >
+                    <div class="error-msg">{{ error.$message }}</div>
+                  </div>
                 </div>
               </div>
               <div class="row mt-3">
@@ -49,18 +71,33 @@
                   <textarea
                     type="text"
                     class="form-control"
+                    :class="{
+                      'border-danger': v$.detail.no.$errors.length,
+                    }"
                     id="address"
                     rows="4"
                     placeholder="รายละเอียดที่อยู่"
-                    v-model="val.no"
+                    v-model="detail.no"
                   />
+                  <div
+                    class="mt-1 input-errors text-danger"
+                    v-for="(error, index) of v$.detail.no.$errors"
+                    :key="index"
+                  >
+                    <div class="error-msg">{{ error.$message }}</div>
+                  </div>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">จังหวัด<span>*</span></label>
-                  {{ val.province }}
-                  <select class="form-select" v-model="val.province">
+                  <select
+                    class="form-select"
+                    :class="{
+                      'border-danger': v$.detail.province.$errors.length,
+                    }"
+                    v-model="detail.province"
+                  >
                     <option value="" disabled selected hidden>
                       กรุณาเลือกจังหวัด
                     </option>
@@ -68,10 +105,23 @@
                     <option value="จังหวัดเชียงใหม่">จังหวัดเชียงใหม่</option>
                     <option value="จังหวัดขอนแก่น">จังหวัดขอนแก่น</option>
                   </select>
+                  <div
+                    class="mt-1 input-errors text-danger"
+                    v-for="(error, index) of v$.detail.province.$errors"
+                    :key="index"
+                  >
+                    <div class="error-msg">{{ error.$message }}</div>
+                  </div>
                 </div>
                 <div class="col-md-6" id="txtDistrct">
                   <label class="form-label">เขต/อำเภอ<span>*</span></label>
-                  <select class="form-select" v-model="val.district">
+                  <select
+                    class="form-select"
+                    :class="{
+                      'border-danger': v$.detail.district.$errors.length,
+                    }"
+                    v-model="detail.district"
+                  >
                     <option value="" disabled selected hidden>
                       กรุณาเลือกเขต/อำเภอ
                     </option>
@@ -79,12 +129,25 @@
                     <option value="อำเภอเมือง">อำเภอเมือง</option>
                     <option value="อำเภอเมืองขอนแก่น">อำเภอเมืองขอนแก่น</option>
                   </select>
+                  <div
+                    class="mt-1 input-errors text-danger"
+                    v-for="(error, index) of v$.detail.district.$errors"
+                    :key="index"
+                  >
+                    <div class="error-msg">{{ error.$message }}</div>
+                  </div>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">แขวง/ตำบล<span>*</span></label>
-                  <select class="form-select" v-model="val.subDistrict">
+                  <select
+                    class="form-select"
+                    :class="{
+                      'border-danger': v$.detail.subDistrict.$errors.length,
+                    }"
+                    v-model="detail.subDistrict"
+                  >
                     <option value="" disabled selected hidden>
                       กรุณาเลือกแขวง/ตำบล
                     </option>
@@ -92,6 +155,13 @@
                     <option value="ตำบลสุเทพ">ตำบลสุเทพ</option>
                     <option value="ตำบลท่าพระ">ตำบลท่าพระ</option>
                   </select>
+                  <div
+                    class="mt-1 input-errors text-danger"
+                    v-for="(error, index) of v$.detail.subDistrict.$errors"
+                    :key="index"
+                  >
+                    <div class="error-msg">{{ error.$message }}</div>
+                  </div>
                 </div>
                 <div class="col-md-6" id="txtPostCode">
                   <label for="postCode" class="form-label"
@@ -100,10 +170,21 @@
                   <input
                     type="text"
                     class="form-control"
+                    :class="{
+                      'border-danger': v$.detail.zipcode.$errors.length,
+                    }"
                     id="postCode"
                     placeholder="รหัสไปรษณีย์"
-                    v-model="val.zipcode"
+                    v-model="detail.zipcode"
+                    maxlength="5"
                   />
+                  <div
+                    class="mt-1 input-errors text-danger"
+                    v-for="(error, index) of v$.detail.zipcode.$errors"
+                    :key="index"
+                  >
+                    <div class="error-msg">{{ error.$message }}</div>
+                  </div>
                 </div>
               </div>
               <div
@@ -113,10 +194,16 @@
                   href="#"
                   class="btn d-block fs-6 text-dark border"
                   data-bs-dismiss="modal"
+                  id="close"
                   aria-label="Close"
                   >ย้อนกลับ</a
                 >
-                <a href="#" class="btn d-block fs-6 text-white">บันทึก</a>
+                <a
+                  href="#"
+                  class="btn d-block fs-6 text-white"
+                  @click="indexArr !== null ? update() : create()"
+                  >บันทึก</a
+                >
               </div>
             </form>
           </div>
@@ -127,16 +214,81 @@
 </template>
 
 <script>
+import useVuelidate from "@vuelidate/core";
+import { required, helpers, numeric, maxLength } from "@vuelidate/validators";
+
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   props: {
     val: {
       type: Object,
-      default: {
-        province: "",
-        district: "",
-        subDistrict: "",
-      },
+      default: {},
       required: false,
+    },
+    indexArr: {
+      type: String,
+      default: null,
+      required: false,
+    },
+  },
+  watch: {
+    val: async function (e) {
+      if (Object.keys(e).length === 0) {
+        this.detail = {
+          province: "",
+          district: "",
+          subDistrict: "",
+        };
+      } else this.detail = e;
+    },
+  },
+  data: () => ({
+    detail: {},
+  }),
+  validations() {
+    return {
+      detail: {
+        surName: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+        lastName: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+        no: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+        province: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+        district: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+        subDistrict: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+        },
+        zipcode: {
+          required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          numeric: helpers.withMessage("กรุณากรอกข้อมูลเป็นตัวเลข !", numeric),
+          max: helpers.withMessage(
+            "รหัสผ่านต้องมากกว่า 5 ตัวอักษร !",
+            maxLength(5)
+          ),
+        },
+      },
+    };
+  },
+  methods: {
+    async create() {
+      this.v$.detail.$touch();
+      if (this.v$.detail.$error) return;
+      this.$store.updateAddress(this.detail);
+      document.getElementById("close").click();
+    },
+    async update() {
+      this.$store.updateAddress(this.detail, this.indexArr);
+      document.getElementById("close").click();
     },
   },
 };

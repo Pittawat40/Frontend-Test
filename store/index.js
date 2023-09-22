@@ -6,6 +6,30 @@ export const useMainStore = defineStore("main", {
     user: {},
     dataStorage: "",
     checkData: null,
+    list: [
+      {
+        no: "1415",
+        subDistrict: "แขวงวงศ์สว่าง",
+        district: "เขตบางซื่อ",
+        province: "กรุงเทพฯ",
+        zipcode: "10800",
+      },
+      {
+        no: "239",
+        subDistrict: "ตำบลสุเทพ",
+        district: "อำเภอเมือง",
+        province: "จังหวัดเชียงใหม่",
+        zipcode: "50200",
+      },
+      {
+        no: "15",
+        subDistrict: "ตำบลท่าพระ",
+        district: "อำเภอเมืองขอนแก่น",
+        province: "จังหวัดขอนแก่น",
+        zipcode: "40260",
+      },
+    ],
+    addressStorage: "",
   }),
   actions: {
     registerUser(commit) {
@@ -17,6 +41,7 @@ export const useMainStore = defineStore("main", {
     },
     checkUser(commit) {
       this.$state.dataStorage = JSON.parse(localStorage.getItem("data"));
+
       return (this.$state.checkData = this.$state.dataStorage
         ? this.$state.dataStorage.find((e) => e.email == commit.email)
         : false);
@@ -25,6 +50,7 @@ export const useMainStore = defineStore("main", {
       this.$state.user = this.$state.dataStorage.find(
         (e) => e.email == commit.email
       );
+
       localStorage.setItem("user", JSON.stringify(this.$state.user));
     },
     getUser() {
@@ -40,6 +66,18 @@ export const useMainStore = defineStore("main", {
       localStorage.setItem("data", JSON.stringify(this.$state.dataStorage));
 
       this.setUser(commit);
+    },
+    getAddress() {
+      this.$state.addressStorage = JSON.parse(localStorage.getItem("address"));
+      if (!this.$state.addressStorage) localStorage.setItem("address", JSON.stringify(this.$state.list));
+
+      return this.$state.addressStorage
+    },
+    updateAddress(commit, index) {
+      if (index !== undefined) this.$state.addressStorage[index] = commit
+      else this.$state.addressStorage.push(commit)
+      
+      localStorage.setItem("address", JSON.stringify(this.$state.addressStorage));
     },
   },
 });

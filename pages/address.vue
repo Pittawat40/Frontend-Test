@@ -38,7 +38,7 @@
                   class="fs-6 text-dark"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
-                  @click="update(n)"
+                  @click="update(n, index)"
                   >แก้ไข</a
                 >
                 |
@@ -82,40 +82,23 @@
       </div>
     </div>
   </div>
-  <modal :val="address" />
+  <modal :val="address" :indexArr="index" />
 </template>
 
 <script>
 export default {
   data: () => ({
-    list: [
-      {
-        no: "1415",
-        subDistrict: "แขวงวงศ์สว่าง",
-        district: "เขตบางซื่อ",
-        province: "กรุงเทพฯ",
-        zipcode: "10800",
-      },
-      {
-        no: "239",
-        subDistrict: "ตำบลสุเทพ",
-        district: "อำเภอเมือง",
-        province: "จังหวัดเชียงใหม่",
-        zipcode: "50200",
-      },
-      {
-        no: "15",
-        subDistrict: "ตำบลท่าพระ",
-        district: "อำเภอเมืองขอนแก่น",
-        province: "จังหวัดขอนแก่น",
-        zipcode: "40260",
-      },
-    ],
+    list: [],
     address: {},
+    index: "",
   }),
+  mounted() {
+    this.list = this.$store.getAddress();
+  },
   methods: {
-    async update(val) {
+    async update(val, indexArr) {
       this.address = val;
+      this.index = indexArr;
     },
   },
 };
