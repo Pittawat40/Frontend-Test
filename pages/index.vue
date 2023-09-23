@@ -102,11 +102,20 @@ export default {
       if (this.v$.form.$error) return;
 
       this.checkData = this.$store.checkUser(this.form);
-      if (this.checkData && this.checkData.password === this.form.password) {
-        this.$store.setUser(this.form);
-        setTimeout(() => this.$router.push({ path: "/profile" }), 500);
+      const element = this.$refs.alert;
+
+      if (this.checkData) {
+        if (this.checkData.password === this.form.password) {
+          this.$store.setUser(this.form);
+          setTimeout(() => this.$router.push({ path: "/profile" }), 500);
+          
+        } else {
+          element.setData("รหัสผ่านไม่ถูกต้อง", "error", "bg-danger");
+          setTimeout(() => element.$el.classList.add("active"), 100);
+          setTimeout(() => element.$el.classList.remove("active"), 2500);
+        }
+
       } else {
-        const element = this.$refs.alert;
         element.setData("ไม่พบอีเมลในระบบ", "error", "bg-danger");
         setTimeout(() => element.$el.classList.add("active"), 100);
         setTimeout(() => element.$el.classList.remove("active"), 2500);

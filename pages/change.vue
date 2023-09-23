@@ -143,16 +143,14 @@ export default {
       const element = this.$refs.alert;
 
       if (this.formUser.password === this.form.password) {
-        if (this.form.newPassword === this.form.confirmPassword) {
-          this.formUser.password = this.form.newPassword;
-          this.$store.editUser(this.formUser);
-          this.v$.$reset();
-          this.form = {};
+        this.formUser.password = this.form.newPassword;
+        this.$store.editUser(this.formUser);
+        this.v$.$reset();
+        this.form = {};
 
-          element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
-          setTimeout(() => element.$el.classList.add("active"), 100);
-          setTimeout(() => element.$el.classList.remove("active"), 2500);
-        }
+        element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
+        setTimeout(() => element.$el.classList.add("active"), 100);
+        setTimeout(() => element.$el.classList.remove("active"), 2500);
       } else {
         element.setData("รหัสผ่านไม่ถูกต้อง", "error", "bg-danger");
         setTimeout(() => element.$el.classList.add("active"), 100);

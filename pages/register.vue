@@ -28,7 +28,7 @@
         <input
           type="password"
           class="form-control"
-          :class="{ 'border-danger': v$.form.password.$errors.length }"
+          :class="{ 'border-danger': v$.form.password.$errors.length || flag }"
           id="pass"
           placeholder="รหัสผ่าน"
           v-model="form.password"
@@ -39,6 +39,11 @@
           :key="index"
         >
           <div class="error-msg">{{ error.$message }}</div>
+        </div>
+        <div class="mt-1 input-errors text-danger" v-if="flag">
+          <div class="error-msg">
+            รหัสผ่านต้องประกอบด้วยตัวอักษร a-z และ 1-9
+          </div>
         </div>
         <div class="form-text">
           * รหัสผ่านต้องประกอบด้วยตัวอักษร a-z และ 1-9 ควรมีความยาวไม่ต่ำกว่า 6
@@ -145,6 +150,7 @@
       </div>
     </form>
   </div>
+  <alert ref="alert" />
 </template>
 
 <script>
@@ -174,7 +180,15 @@ export default {
       gender: "",
       access: false,
     },
+    flag: false,
   }),
+  watch: {
+    "form.password": async function (e) {
+      this.$store.checkPass(this.form.password);
+      if (!this.$store.checkPass(this.form.password)) this.flag = true;
+      else this.flag = false;
+    },
+  },
   validations() {
     return {
       form: {
@@ -212,10 +226,13 @@ export default {
       if (this.v$.form.$error) return;
 
       if (!this.$store.checkUser(this.form)) {
-        if (this.form.password === this.form.confirmPassword) {
-          this.$store.registerUser(this.form);
-          setTimeout(() => this.$router.push({ path: "/" }), 500);
-        }
+        this.$store.registerUser(this.form);
+        setTimeout(() => this.$router.push({ path: "/" }), 500);
+      } else {
+        const element = this.$refs.alert;
+        element.setData("อีเมลนี้ถูกใช้งานแล้ว", "error", "bg-danger");
+        setTimeout(() => element.$el.classList.add("active"), 100);
+        setTimeout(() => element.$el.classList.remove("active"), 2500);
       }
     },
   },

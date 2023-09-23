@@ -46,6 +46,9 @@ export const useMainStore = defineStore("main", {
         ? this.$state.dataStorage.find((e) => e.email == commit.email)
         : false);
     },
+    checkPass(commit) {
+      return /^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$/.test(commit);
+    },
     setUser(commit) {
       this.$state.user = this.$state.dataStorage.find(
         (e) => e.email == commit.email

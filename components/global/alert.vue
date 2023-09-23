@@ -34,13 +34,13 @@ export default {
 <style scoped>
 .alert {
   top: 2rem;
-  right: -110%;
+  right: 0;
   padding: 1rem;
   opacity: 0;
   gap: 0.8rem;
   box-shadow: var(--box-shadow);
   width: auto;
-  transition: right 0.5s;
+  transition: right 0.2s;
   z-index: 1000;
 }
 
@@ -48,7 +48,7 @@ export default {
   position: fixed !important;
   right: 2rem;
   opacity: 1;
-  transition: 0.5s linear;
+  transition: 0.2s linear;
 }
 
 .alert i {
