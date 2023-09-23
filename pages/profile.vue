@@ -231,10 +231,6 @@ export default {
   width: 20%;
 }
 
-.container form .footer {
-  height: 5rem;
-}
-
 .container .detail {
   height: 80%;
 }

@@ -32,22 +32,28 @@
                 {{ n.no }} {{ n.subDistrict }} {{ n.district }}
                 {{ n.province }} {{ n.zipcode }}
               </td>
-              <td class="text-center">
+              <td class="text-center action">
                 <a
                   href="#"
-                  class="fs-6 text-dark"
+                  class="fs-6 text-dark mx-1"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
                   @click="update(n, index)"
                   >แก้ไข</a
                 >
                 |
-                <a href="#" class="fs-6 text-dark">ลบ</a>
+                <a
+                  href="#"
+                  class="fs-6 text-dark ms-1"
+                  data-bs-toggle="modal"
+                  data-bs-target="#confirmModal"
+                  @click="remove(index)"
+                  >ลบ</a
+                >
               </td>
             </tr>
           </tbody>
         </table>
-
         <div class="d-flex justify-content-between align-items-center">
           <select class="form-select w-25">
             <option disabled selected hidden>10 / หน้า</option>
@@ -83,6 +89,7 @@
     </div>
   </div>
   <modal ref="modal" :val="address" :indexArr="index" />
+  <modalConfirm :indexArr="index" />
 </template>
 
 <script>
@@ -97,8 +104,11 @@ export default {
   },
   methods: {
     async update(val, indexArr) {
-      this.$refs.modal.reset()
+      this.$refs.modal.reset();
       this.address = val;
+      this.index = indexArr;
+    },
+    async remove(indexArr) {
       this.index = indexArr;
     },
   },
@@ -127,6 +137,7 @@ tr {
 .container .detail .body {
   width: auto;
   padding-left: 2rem;
+  overflow-y: hidden;
 }
 
 .container .detail .body .header .line {
@@ -183,6 +194,10 @@ tr {
 
   .container .detail .body .header .line {
     width: 65%;
+  }
+
+  .container .detail .body .action a {
+    margin: 0 !important;
   }
 }
 </style>

@@ -82,5 +82,9 @@ export const useMainStore = defineStore("main", {
 
       localStorage.setItem("address", JSON.stringify(this.$state.addressStorage));
     },
+    deleteAddress(index) {
+      this.$state.addressStorage.splice(index, 1);
+      localStorage.setItem("address", JSON.stringify(this.$state.addressStorage));
+    },
   },
 });
