@@ -76,8 +76,10 @@ export default {
       } else {
         const element = this.$refs.alert;
         element.setData("ไม่พบอีเมลในระบบ", "error", "bg-danger");
-        setTimeout(() => element.$el.classList.add("active"), 100);
-        setTimeout(() => element.$el.classList.remove("active"), 2500);
+        setTimeout(() => {
+          element.$el.classList.add("active");
+          setTimeout(() => element.$el.classList.remove("active"), 2500);
+        }, 100);
       }
     },
   },

@@ -78,11 +78,12 @@
               class="form-select"
               :class="{ 'border-danger': v$.form.birthDay.day.$errors.length }"
               onmousedown="this.size=5"
+              onmouseleave="this.size=0"
               onchange="this.size=0"
               v-model="form.birthDay.day"
             >
               <option value="" disabled selected hidden>วัน</option>
-              <option v-for="(n, index) in day" :key="n" :value="index">
+              <option v-for="(n, index) in day" :key="n" :value="n">
                 {{ n }}
               </option>
             </select>
@@ -94,11 +95,12 @@
                 'border-danger': v$.form.birthDay.month.$errors.length,
               }"
               onmousedown="this.size=5"
+              onmouseleave="this.size=0"
               onchange="this.size=0"
               v-model="form.birthDay.month"
             >
               <option value="" disabled selected hidden>เดือน</option>
-              <option v-for="(n, index) in month" :key="n" :value="index">
+              <option v-for="(n, index) in month" :key="n" :value="n">
                 {{ n }}
               </option>
             </select>
@@ -110,11 +112,12 @@
                 'border-danger': v$.form.birthDay.year.$errors.length,
               }"
               onmousedown="this.size=5"
+              onmouseleave="this.size=0"
               onchange="this.size=0"
               v-model="form.birthDay.year"
             >
               <option value="" disabled selected hidden>ปี</option>
-              <option v-for="(n, index) in year" :key="n" :value="index">
+              <option v-for="(n, index) in year" :key="n" :value="n">
                 {{ n }}
               </option>
             </select>
@@ -217,13 +220,25 @@ export default {
     day: [],
     month: [],
     year: [],
-    current: 10,
+    current: 30,
   }),
   watch: {
     "form.password": async function (e) {
-      this.$store.checkPass(this.form.password);
-      if (!this.$store.checkPass(this.form.password)) this.flag = true;
+      if (!this.$store.checkPass(e)) this.flag = true;
       else this.flag = false;
+    },
+    "form.birthDay.month": async function (e) {
+      let index = value.month.findIndex(function (month) {
+        return month === e;
+      });
+
+      if (
+        value.day[index].length < this.day.length &&
+        !value.day[index].includes(this.form.birthDay.day)
+      ) {
+        this.form.birthDay.day = "";
+      }
+      this.day = value.day[index];
     },
   },
   validations() {
@@ -269,14 +284,12 @@ export default {
     };
   },
   mounted() {
-    console.log(value);
     this.month = value.month;
     this.day = value.day[0];
 
-    const currentYear = new Date().getFullYear();
+    const currentYear = new Date().getFullYear() + 543;
     for (let i = 0; i < this.current; i++) {
-      if (i !== 0) this.year.push(currentYear - (i + 1));
-      else this.year.push(currentYear);
+      if (i > 5) this.year.push(currentYear - i);
     }
   },
   methods: {
@@ -284,14 +297,22 @@ export default {
       this.v$.form.$touch();
       if (this.v$.form.$error) return;
 
+      const element = this.$refs.alert;
       if (!this.$store.checkUser(this.form)) {
         this.$store.registerUser(this.form);
-        setTimeout(() => this.$router.push({ path: "/" }), 500);
-      } else {
-        const element = this.$refs.alert;
-        element.setData("อีเมลนี้ถูกใช้งานแล้ว", "error", "bg-danger");
+
+        element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
         setTimeout(() => element.$el.classList.add("active"), 100);
-        setTimeout(() => element.$el.classList.remove("active"), 2500);
+        setTimeout(() => {
+          element.$el.classList.remove("active");
+          this.$router.push({ path: "/" });
+        }, 1000);
+      } else {
+        element.setData("อีเมลนี้ถูกใช้งานแล้ว", "error", "bg-danger");
+        setTimeout(() => {
+          element.$el.classList.add("active");
+          setTimeout(() => element.$el.classList.remove("active"), 2500);
+        }, 100);
       }
     },
   },

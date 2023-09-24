@@ -108,17 +108,19 @@ export default {
         if (this.checkData.password === this.form.password) {
           this.$store.setUser(this.form);
           setTimeout(() => this.$router.push({ path: "/profile" }), 500);
-          
         } else {
           element.setData("รหัสผ่านไม่ถูกต้อง", "error", "bg-danger");
-          setTimeout(() => element.$el.classList.add("active"), 100);
-          setTimeout(() => element.$el.classList.remove("active"), 2500);
+          setTimeout(() => {
+            element.$el.classList.add("active");
+            setTimeout(() => element.$el.classList.remove("active"), 2500);
+          }, 100);
         }
-
       } else {
         element.setData("ไม่พบอีเมลในระบบ", "error", "bg-danger");
-        setTimeout(() => element.$el.classList.add("active"), 100);
-        setTimeout(() => element.$el.classList.remove("active"), 2500);
+        setTimeout(() => {
+          element.$el.classList.add("active");
+          setTimeout(() => element.$el.classList.remove("active"), 2500);
+        }, 100);
       }
     },
   },

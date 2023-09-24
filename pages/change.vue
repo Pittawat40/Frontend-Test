@@ -51,6 +51,11 @@
               >
                 <div class="error-msg">{{ error.$message }}</div>
               </div>
+              <div class="mt-1 input-errors text-danger" v-if="flag">
+                <div class="error-msg">
+                  รหัสผ่านต้องประกอบด้วยตัวอักษร a-z และ 1-9
+                </div>
+              </div>
             </div>
             <div class="col-md-6" id="txtPass">
               <label for="confirmPass" class="form-label"
@@ -102,7 +107,14 @@ export default {
       confirmPassword: "",
     },
     formUser: {},
+    flag: false,
   }),
+  watch: {
+    "form.newPassword": async function (e) {
+      if (e && !this.$store.checkPass(e) && Object.keys(e).length !== 0) this.flag = true;
+      else  this.flag = false
+    },
+  },
   validations() {
     return {
       form: {
@@ -149,12 +161,16 @@ export default {
         this.form = {};
 
         element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
-        setTimeout(() => element.$el.classList.add("active"), 100);
-        setTimeout(() => element.$el.classList.remove("active"), 2500);
+        setTimeout(() => {
+          element.$el.classList.add("active");
+          setTimeout(() => element.$el.classList.remove("active"), 2500);
+        }, 100);
       } else {
         element.setData("รหัสผ่านไม่ถูกต้อง", "error", "bg-danger");
-        setTimeout(() => element.$el.classList.add("active"), 100);
-        setTimeout(() => element.$el.classList.remove("active"), 2500);
+        setTimeout(() => {
+          element.$el.classList.add("active");
+          setTimeout(() => element.$el.classList.remove("active"), 2500);
+        }, 100);
       }
     },
   },

@@ -22,22 +22,27 @@
         >
           <div class="error-msg">{{ error.$message }}</div>
         </div>
+        <div class="mt-1 input-errors text-danger" v-if="flag">
+          <div class="error-msg">
+            รหัสผ่านต้องประกอบด้วยตัวอักษร a-z และ 1-9
+          </div>
+        </div>
       </div>
       <div class="mb-3">
-        <label for="newPass" class="form-label"
-          >รหัสผ่านใหม่<span>*</span></label
+        <label for="confirmPass" class="form-label"
+          >ยืนยันรหัสผ่าน<span>*</span></label
         >
         <input
           type="password"
           class="form-control"
-          :class="{ 'border-danger': v$.form.newPassword.$errors.length }"
-          id="newPass"
-          placeholder="รหัสผ่านใหม่"
-          v-model="form.newPassword"
+          :class="{ 'border-danger': v$.form.confirmPassword.$errors.length }"
+          id="confirmPass"
+          placeholder="ยืนยันรหัสผ่าน"
+          v-model="form.confirmPassword"
         />
         <div
           class="mt-1 input-errors text-danger"
-          v-for="(error, index) of v$.form.newPassword.$errors"
+          v-for="(error, index) of v$.form.confirmPassword.$errors"
           :key="index"
         >
           <div class="error-msg">{{ error.$message }}</div>
@@ -56,7 +61,7 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import { required, minLength, helpers } from "@vuelidate/validators";
+import { required, minLength, sameAs, helpers } from "@vuelidate/validators";
 
 export default {
   setup() {
@@ -65,10 +70,17 @@ export default {
   data: () => ({
     form: {
       password: "",
-      newPassword: "",
+      confirmPassword: "",
     },
     formUser: {},
+    flag: false,
   }),
+  watch: {
+    "form.password": async function (e) {
+      if (!this.$store.checkPass(e)) this.flag = true;
+      else this.flag = false;
+    },
+  },
   validations() {
     return {
       form: {
@@ -79,11 +91,15 @@ export default {
             minLength(6)
           ),
         },
-        newPassword: {
+        confirmPassword: {
           required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
           min: helpers.withMessage(
             "รหัสผ่านต้องมากกว่า 6 ตัวอักษร !",
             minLength(6)
+          ),
+          sameAs: helpers.withMessage(
+            "กรุณากรอกรหัสผ่านให้เหมือนกัน !",
+            sameAs(this.form.password)
           ),
         },
       },
@@ -95,21 +111,16 @@ export default {
       if (this.v$.form.$error) return;
 
       this.formUser = this.$store.getUser();
+      this.formUser.password = this.form.password;
+      this.$store.editUser(this.formUser);
+
       const element = this.$refs.alert;
-
-      if (this.formUser.password === this.form.password) {
-        this.formUser.password = this.form.newPassword;
-        this.$store.editUser(this.formUser);
-
-        element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
-        setTimeout(() => element.$el.classList.add("active"), 100);
-        setTimeout(() => element.$el.classList.remove("active"), 1500);
-        setTimeout(() => this.$router.push({ path: "/" }), 2000);
-      } else {
-        element.setData("รหัสผ่านไม่ถูกต้อง", "error", "bg-danger");
-        setTimeout(() => element.$el.classList.add("active"), 100);
-        setTimeout(() => element.$el.classList.remove("active"), 2500);
-      }
+      element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
+      setTimeout(() => element.$el.classList.add("active"), 100);
+      setTimeout(() => {
+        element.$el.classList.remove("active");
+        this.$router.push({ path: "/" });
+      }, 1000);
     },
   },
 };

@@ -95,21 +95,48 @@
               <div
                 class="d-flex justify-content-between align-items-center gap-3"
               >
-                <select class="form-select">
-                  <option disabled selected hidden>วัน</option>
-                  <option>Ketchup</option>
-                  <option>Relish</option>
-                </select>
-                <select class="form-select">
-                  <option disabled selected hidden>เดือน</option>
-                  <option>Ketchup</option>
-                  <option>Relish</option>
-                </select>
-                <select class="form-select">
-                  <option disabled selected hidden>ปี</option>
-                  <option>Ketchup</option>
-                  <option>Relish</option>
-                </select>
+                <span class="holder position-relative d-inline w-100 mx-auto">
+                  <select
+                    class="form-select"
+                    onmousedown="this.size=5"
+                    onmouseleave="this.size=0"
+                    onchange="this.size=0"
+                    v-model="form.birthDay.day"
+                  >
+                    <option value="" disabled selected hidden>วัน</option>
+                    <option v-for="(n, index) in day" :key="n" :value="n">
+                      {{ n }}
+                    </option>
+                  </select>
+                </span>
+                <span class="holder position-relative d-inline w-100 mx-auto">
+                  <select
+                    class="form-select"
+                    onmousedown="this.size=5"
+                    onmouseleave="this.size=0"
+                    onchange="this.size=0"
+                    v-model="form.birthDay.month"
+                  >
+                    <option value="" disabled selected hidden>เดือน</option>
+                    <option v-for="(n, index) in month" :key="n" :value="n">
+                      {{ n }}
+                    </option>
+                  </select>
+                </span>
+                <span class="holder position-relative d-inline w-100 mx-auto">
+                  <select
+                    class="form-select"
+                    onmousedown="this.size=5"
+                    onmouseleave="this.size=0"
+                    onchange="this.size=0"
+                    v-model="form.birthDay.year"
+                  >
+                    <option value="" disabled selected hidden>ปี</option>
+                    <option v-for="(n, index) in year" :key="n" :value="n">
+                      {{ n }}
+                    </option>
+                  </select>
+                </span>
               </div>
             </div>
             <div class="col-md-6" id="txtGender">
@@ -164,15 +191,46 @@
 
 <script>
 import useVuelidate from "@vuelidate/core";
-import { required, email, minLength, helpers } from "@vuelidate/validators";
+import { required, email, helpers } from "@vuelidate/validators";
+
+import value from "../store/data.json";
 
 export default {
   setup() {
     return { v$: useVuelidate() };
   },
   data: () => ({
-    form: {},
+    form: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      birthDay: {
+        day: "",
+        month: "",
+        year: "",
+      },
+      gender: "",
+    },
+    day: [],
+    month: [],
+    year: [],
+    current: 30,
   }),
+  watch: {
+    "form.birthDay.month": async function (e) {
+      let index = value.month.findIndex(function (month) {
+        return month === e;
+      });
+
+      if (
+        value.day[index].length < this.day.length &&
+        !value.day[index].includes(this.form.birthDay.day)
+      ) {
+        this.form.birthDay.day = "";
+      }
+      this.day = value.day[index];
+    },
+  },
   validations() {
     return {
       form: {
@@ -189,6 +247,17 @@ export default {
         phone: {
           required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
         },
+        birthDay: {
+          day: {
+            required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          },
+          month: {
+            required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          },
+          year: {
+            required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          },
+        },
         gender: {
           required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
         },
@@ -197,6 +266,14 @@ export default {
   },
   mounted() {
     this.form = this.$store.getUser();
+
+    this.month = value.month;
+    this.day = value.day[0];
+
+    const currentYear = new Date().getFullYear() + 543;
+    for (let i = 0; i < this.current; i++) {
+      if (i > 5) this.year.push(currentYear - i);
+    }
   },
   methods: {
     async updateProfile() {
@@ -206,8 +283,10 @@ export default {
       this.$store.editUser(this.form);
       const element = this.$refs.alert;
       element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
-      setTimeout(() => element.$el.classList.add("active"), 100);
-      setTimeout(() => element.$el.classList.remove("active"), 2500);
+      setTimeout(() => {
+        element.$el.classList.add("active");
+        setTimeout(() => element.$el.classList.remove("active"), 2500);
+      }, 100);
     },
   },
 };
