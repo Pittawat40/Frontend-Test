@@ -24,6 +24,10 @@ h5 {
   padding-left: 2rem;
 }
 
+.holder {
+  height: 2.4rem;
+}
+
 .container {
   position: relative;
   height: 100vh;
@@ -65,7 +69,7 @@ h5 {
     width: 100% !important;
   }
 
-  .container .header .line{
+  .container .header .line {
     width: 70%;
   }
 }

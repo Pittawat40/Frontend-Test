@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     remove(index) {
-      this.$store.deleteAddress(index);
+      this.$address.deleteAddress(index);
 
       const element = this.$refs.alert;
       element.setData("ดำเนินการสำเร็จ", "success", "bg-success");

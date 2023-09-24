@@ -73,21 +73,52 @@
       <div class="mt-3 mb-3">
         <label class="form-label">วันเกิด<span>*</span></label>
         <div class="d-flex justify-content-between align-items-center gap-3">
-          <select class="form-select">
-            <option disabled selected hidden>วัน</option>
-            <option>Ketchup</option>
-            <option>Relish</option>
-          </select>
-          <select class="form-select">
-            <option disabled selected hidden>เดือน</option>
-            <option>Ketchup</option>
-            <option>Relish</option>
-          </select>
-          <select class="form-select">
-            <option disabled selected hidden>ปี</option>
-            <option>Ketchup</option>
-            <option>Relish</option>
-          </select>
+          <span class="holder position-relative d-inline w-100 mx-auto">
+            <select
+              class="form-select"
+              :class="{ 'border-danger': v$.form.birthDay.day.$errors.length }"
+              onmousedown="this.size=5"
+              onchange="this.size=0"
+              v-model="form.birthDay.day"
+            >
+              <option value="" disabled selected hidden>วัน</option>
+              <option v-for="(n, index) in day" :key="n" :value="index">
+                {{ n }}
+              </option>
+            </select>
+          </span>
+          <span class="holder position-relative d-inline w-100 mx-auto">
+            <select
+              class="form-select"
+              :class="{
+                'border-danger': v$.form.birthDay.month.$errors.length,
+              }"
+              onmousedown="this.size=5"
+              onchange="this.size=0"
+              v-model="form.birthDay.month"
+            >
+              <option value="" disabled selected hidden>เดือน</option>
+              <option v-for="(n, index) in month" :key="n" :value="index">
+                {{ n }}
+              </option>
+            </select>
+          </span>
+          <span class="holder position-relative d-inline w-100 mx-auto">
+            <select
+              class="form-select"
+              :class="{
+                'border-danger': v$.form.birthDay.year.$errors.length,
+              }"
+              onmousedown="this.size=5"
+              onchange="this.size=0"
+              v-model="form.birthDay.year"
+            >
+              <option value="" disabled selected hidden>ปี</option>
+              <option v-for="(n, index) in year" :key="n" :value="index">
+                {{ n }}
+              </option>
+            </select>
+          </span>
         </div>
       </div>
       <div class="mt-3 mb-3">
@@ -163,6 +194,8 @@ import {
   sameAs,
 } from "@vuelidate/validators";
 
+import value from "../store/data.json";
+
 export default {
   setup() {
     return { v$: useVuelidate() };
@@ -181,6 +214,10 @@ export default {
       access: false,
     },
     flag: false,
+    day: [],
+    month: [],
+    year: [],
+    current: 10,
   }),
   watch: {
     "form.password": async function (e) {
@@ -214,11 +251,33 @@ export default {
             sameAs(this.form.password)
           ),
         },
+        birthDay: {
+          day: {
+            required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          },
+          month: {
+            required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          },
+          year: {
+            required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
+          },
+        },
         gender: {
           required: helpers.withMessage("กรุณากรอกข้อมูล !", required),
         },
       },
     };
+  },
+  mounted() {
+    console.log(value);
+    this.month = value.month;
+    this.day = value.day[0];
+
+    const currentYear = new Date().getFullYear();
+    for (let i = 0; i < this.current; i++) {
+      if (i !== 0) this.year.push(currentYear - (i + 1));
+      else this.year.push(currentYear);
+    }
   },
   methods: {
     async register() {

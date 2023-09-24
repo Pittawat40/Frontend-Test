@@ -100,7 +100,7 @@ export default {
     index: "",
   }),
   mounted() {
-    this.list = this.$store.getAddress();
+    this.list = this.$address.getAddress();
   },
   methods: {
     async update(val, indexArr) {

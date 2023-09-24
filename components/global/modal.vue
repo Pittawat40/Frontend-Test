@@ -280,7 +280,7 @@ export default {
       this.v$.detail.$touch();
       if (this.v$.detail.$error) return;
 
-      this.$store.updateAddress(this.detail, index);
+      this.$address.updateAddress(this.detail, index);
 
       const element = this.$refs.alert;
       element.setData("ดำเนินการสำเร็จ", "success", "bg-success");
