@@ -56,8 +56,7 @@
         </table>
         <div class="d-flex justify-content-between align-items-center">
           <select class="form-select w-25">
-            <option disabled selected hidden>10 / หน้า</option>
-            <option value="10">10</option>
+            <option selected value="10">10</option>
             <option value="15">15</option>
             <option value="30">30</option>
           </select>
